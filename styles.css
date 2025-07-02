@@ -525,8 +525,7 @@ body {
   display: none;
 }
 
-.section__panel-list,
-.alice-carousel__stage {
+.section__panel-list {
   display: flex;
   gap: 0.9375rem;
   margin: 0;
