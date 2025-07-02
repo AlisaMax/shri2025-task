@@ -34,7 +34,7 @@ function Header() {
     </header>;
 }
 
-const Event = React.memo(function Event(props) {
+function Event(props) {
     const ref = React.useRef();
 
     const { onSize } = props;
@@ -45,7 +45,7 @@ const Event = React.memo(function Event(props) {
         if (onSize) {
             onSize({ width, height });
         }
-    }, []);
+    });
 
     return <li ref={ref} className={'event' + (props.slim ? ' event_slim' : '')}>
         <button className="event__button">
@@ -56,7 +56,7 @@ const Event = React.memo(function Event(props) {
             }
         </button>
     </li>;
-});
+}
 
 
 const TABS = {
@@ -192,27 +192,22 @@ function Main() {
         setActiveTab(event.target.value);
     };
 
-    // let sizes = [];
-    // const onSize = size => {
-    //     sizes = [...sizes, size];
-    // };
-
-    const sizesRef = React.useRef([]);
-
+    let sizes = [];
     const onSize = size => {
-        sizesRef.current = [...sizesRef.current, size];
+        sizes = [...sizes, size];
     };
 
 
+
     React.useEffect(() => {
-        const sumWidth = sizesRef.current.reduce((acc, item) => acc + item.width, 0);
-        const sumHeight = sizesRef.current.reduce((acc, item) => acc + item.height, 0);
+        const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
+        const sumHeight = sizes.reduce((acc, item) => acc + item.height, 0);
 
         const newHasRightScroll = sumWidth > ref.current.offsetWidth;
         if (newHasRightScroll !== hasRightScroll) {
             setHasRightScroll(newHasRightScroll);
         }
-    }, []);
+    });
 
     const onArrowCLick = () => {
         const scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');
