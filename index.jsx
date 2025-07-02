@@ -168,7 +168,7 @@ const TABS = {
 };
 
 let items = TABS.all.items;
-for (let i = 0; i < 6; ++i) {
+for (let i = 0; i < 4; ++i) {
     items = items.concat(items);
 }
 TABS.all.items = items;
