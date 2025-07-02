@@ -9,7 +9,6 @@ function Header() {
         if (!toggled) {
             setToggled(true);
         }
-
         setExpanded(!expanded);
     };
 
