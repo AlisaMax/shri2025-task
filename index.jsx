@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { memo, useEffect, useRef, useState } from 'react';
+import { createRoot } from 'react-dom/client';
 
 function Header() {
-    let [expanded, setExpanded] = React.useState(false);
-    let [toggled, setToggled] = React.useState(false);
+    let [expanded, setExpanded] = useState(false);
+    let [toggled, setToggled] = useState(false);
 
     const onClick = () => {
         if (!toggled) {
@@ -34,12 +34,12 @@ function Header() {
     </header>;
 }
 
-const Event = React.memo(function Event(props) {
-    const ref = React.useRef();
+const Event = memo(function Event(props) {
+    const ref = useRef();
 
     const { onSize } = props;
 
-    React.useEffect(() => {
+    useEffect(() => {
         const width = ref.current.offsetWidth;
         const height = ref.current.offsetHeight;
         if (onSize) {
@@ -176,12 +176,12 @@ TABS.all.items = items;
 const TABS_KEYS = Object.keys(TABS);
 
 function Main() {
-    const ref = React.useRef();
-    const initedRef = React.useRef(false);
-    const [activeTab, setActiveTab] = React.useState('all');
-    const [hasRightScroll, setHasRightScroll] = React.useState(false);
+    const ref = useRef();
+    const initedRef = useRef(false);
+    const [activeTab, setActiveTab] = useState('all');
+    const [hasRightScroll, setHasRightScroll] = useState(false);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!initedRef.current) {
             initedRef.current = true;
             setActiveTab(new URLSearchParams(location.search).get('tab') || 'all');
@@ -197,7 +197,7 @@ function Main() {
         sizes = sizes.concat(size);
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
 
         const newHasRightScroll = sumWidth > ref.current.offsetWidth;
@@ -360,7 +360,7 @@ function Main() {
 }
 
 setTimeout(() => {
-    const root = ReactDOM.createRoot(document.getElementById('app'));
+    const root = createRoot(document.getElementById('app'));
     root.render(
         <>
             <Header />
