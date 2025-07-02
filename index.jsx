@@ -35,19 +35,7 @@ function Header() {
 }
 
 const Event = memo(function Event(props) {
-    const ref = useRef();
-
-    const { onSize } = props;
-
-    useEffect(() => {
-        const width = ref.current.offsetWidth;
-        const height = ref.current.offsetHeight;
-        if (onSize) {
-            onSize({ width, height });
-        }
-    });
-
-    return <li ref={ref} className={'event' + (props.slim ? ' event_slim' : '')}>
+    return <li className={'event' + (props.slim ? ' event_slim' : '')}>
         <button className="event__button">
             <span className={`event__icon event__icon_${props.icon}`} role="img" aria-label={props.iconLabel}></span>
             <h4 className="event__title">{props.title}</h4>
@@ -192,10 +180,7 @@ function Main() {
         setActiveTab(event.target.value);
     };
 
-    let sizes = [];
-    const onSize = size => {
-        sizes = sizes.concat(size);
-    };
+
 
     useEffect(() => {
         const listWidth = listRef.current.offsetWidth;
@@ -346,7 +331,6 @@ function Main() {
                             <Event
                                 key={index}
                                 {...item}
-                                onSize={onSize}
                             />
                         )}
                     </ul>
