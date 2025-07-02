@@ -34,7 +34,7 @@ function Header() {
     </header>;
 }
 
-function Event(props) {
+const Event = React.memo(function Event(props) {
     const ref = React.useRef();
 
     const { onSize } = props;
@@ -56,7 +56,7 @@ function Event(props) {
             }
         </button>
     </li>;
-};
+});
 
 
 const TABS = {
@@ -197,11 +197,8 @@ function Main() {
         sizes = [...sizes, size];
     };
 
-
-
     React.useEffect(() => {
         const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
-        // const sumHeight = sizes.reduce((acc, item) => acc + item.height, 0);
 
         const newHasRightScroll = sumWidth > ref.current.offsetWidth;
         if (newHasRightScroll !== hasRightScroll) {
