@@ -180,7 +180,7 @@ function Main() {
     const initedRef = useRef(false);
     const [activeTab, setActiveTab] = useState('all');
     const [hasRightScroll, setHasRightScroll] = useState(false);
-
+    const listRef = useRef();
     useEffect(() => {
         if (!initedRef.current) {
             initedRef.current = true;
@@ -198,9 +198,9 @@ function Main() {
     };
 
     useEffect(() => {
-        const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
+        const listWidth = listRef.current.offsetWidth;
 
-        const newHasRightScroll = sumWidth > ref.current.offsetWidth;
+        const newHasRightScroll = listWidth > ref.current.offsetWidth;
         if (newHasRightScroll !== hasRightScroll) {
             setHasRightScroll(newHasRightScroll);
         }
@@ -340,8 +340,8 @@ function Main() {
             </div>
 
             <div className="section__panel-wrapper" ref={ref}>
-                <div role="tabpanel" className={'section__panel'} id={`panel_${activeTab}`}>
-                    <ul className="section__panel-list">
+                <div role="tabpanel" className={'section__panel'} id={`panel_${activeTab}`} >
+                    <ul className="section__panel-list" ref={listRef}>
                         {TABS[activeTab].items.map((item, index) =>
                             <Event
                                 key={index}
