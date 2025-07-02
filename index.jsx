@@ -34,7 +34,7 @@ function Header() {
     </header>;
 }
 
-function Event(props) {
+const Event = React.memo(function Event(props) {
     const ref = React.useRef();
 
     const { onSize } = props;
@@ -45,7 +45,7 @@ function Event(props) {
         if (onSize) {
             onSize({ width, height });
         }
-    });
+    }, []);
 
     return <li ref={ref} className={'event' + (props.slim ? ' event_slim' : '')}>
         <button className="event__button">
@@ -56,7 +56,8 @@ function Event(props) {
             }
         </button>
     </li>;
-}
+});
+
 
 const TABS = {
     all: {
@@ -165,61 +166,9 @@ const TABS = {
         }]
     }
 };
-// const DEVICES = [
-//     {
-//         icon: 'light2',
-//         iconLabel: 'Освещение',
-//         title: 'Xiaomi Yeelight LED Smart Bulb',
-//         subtitle: 'Включено',
-//         type: 'kitchen',
-//     },
-//     {
-//         icon: 'temp',
-//         iconLabel: 'Температура',
-//         title: 'Elgato Eve Degree Connected',
-//         subtitle: 'Выключено до 17:00',
-//         roo m: 'kitchen',
-//     },
-//     {
-//         icon: 'light',
-//         iconLabel: 'Освещение',
-//         title: 'Philips Zhirui',
-//         subtitle: 'Выключено',
-//         type: 'hall',
-//     },
-//     {
-//         icon: 'light2',
-//         iconLabel: 'Освещение',
-//         title: 'Xiaomi Mi Air Purifier 2S',
-//         subtitle: 'Выключено',
-//         type: 'hall',
-//     },
-//     {
-//         icon: 'light',
-//         iconLabel: 'Освещение',
-//         title: 'D-Link Omna 180 Cam',
-//         subtitle: 'Включится в 17:00',
-//         type: 'lights',
-//     },
-//     {
-//         icon: 'light',
-//         iconLabel: 'Освещение',
-//         title: 'LIFX Mini Day & Dusk A60 E27',
-//         subtitle: 'Включится в 17:00',
-//         type: 'lights',
-//     },
-//     {
-//         icon: 'light2',
-//         iconLabel: 'Освещение',
-//         title: 'Xiaomi Mi Air Purifier 2S',
-//         subtitle: 'Включено',
-//         type: 'cameras',
-//     }
-// ];
-
-// for (let i = 0; i < 6; ++i) {
-//     TABS.all.items = [...TABS.all.items, ...TABS.all.items];
-// }
+for (let i = 0; i < 6; ++i) {
+    TABS.all.items = [...TABS.all.items, ...TABS.all.items];
+}
 const TABS_KEYS = Object.keys(TABS);
 
 function Main() {
@@ -233,26 +182,33 @@ function Main() {
             initedRef.current = true;
             setActiveTab(new URLSearchParams(location.search).get('tab') || 'all');
         }
-    });
+    }, []);
 
     const onSelectInput = event => {
         setActiveTab(event.target.value);
     };
 
-    let sizes = [];
+    // let sizes = [];
+    // const onSize = size => {
+    //     sizes = [...sizes, size];
+    // };
+
+    const sizesRef = React.useRef([]);
+
     const onSize = size => {
-        sizes = [...sizes, size];
+        sizesRef.current = [...sizesRef.current, size];
     };
 
+
     React.useEffect(() => {
-        const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
-        const sumHeight = sizes.reduce((acc, item) => acc + item.height, 0);
+        const sumWidth = sizesRef.current.reduce((acc, item) => acc + item.width, 0);
+        const sumHeight = sizesRef.current.reduce((acc, item) => acc + item.height, 0);
 
         const newHasRightScroll = sumWidth > ref.current.offsetWidth;
         if (newHasRightScroll !== hasRightScroll) {
             setHasRightScroll(newHasRightScroll);
         }
-    });
+    }, []);
 
     const onArrowCLick = () => {
         const scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');

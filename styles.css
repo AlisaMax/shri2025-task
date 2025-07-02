@@ -525,7 +525,8 @@ body {
   display: none;
 }
 
-.section__panel-list {
+.section__panel-list,
+.alice-carousel__stage {
   display: flex;
   gap: 0.9375rem;
   margin: 0;
@@ -609,4 +610,14 @@ body {
   .footer__copyright {
     margin-left: 0;
   }
+}
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  flex: 0 0 20%;
+  margin-right: 10px;
 }
