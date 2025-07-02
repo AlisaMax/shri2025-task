@@ -9,6 +9,7 @@ function Header() {
         if (!toggled) {
             setToggled(true);
         }
+
         setExpanded(!expanded);
     };
 
@@ -55,7 +56,7 @@ function Event(props) {
             }
         </button>
     </li>;
-}
+};
 
 
 const TABS = {
