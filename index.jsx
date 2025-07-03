@@ -9,7 +9,6 @@ function Header() {
         if (!toggled) {
             setToggled(true);
         }
-
         setExpanded(!expanded);
     };
 
@@ -155,13 +154,20 @@ const TABS = {
     }
 };
 
-let items = TABS.all.items;
-for (let i = 0; i < 6; ++i) {
-    items = items.concat(items);
-}
-TABS.all.items = items;
 
+const result = new Array(512);
+for (let i = 0; i < 8; i++) {
+    result[i] = TABS.all.items[i];
+}
+for (let size = 8; size < 512; size *= 2) {
+    for (let i = 0; i < size; i++) {
+        result[size + i] = result[i];
+    }
+}
+TABS.all.items = result;
 const TABS_KEYS = Object.keys(TABS);
+
+
 
 function Main() {
     const ref = useRef();
@@ -179,8 +185,6 @@ function Main() {
     const onSelectInput = event => {
         setActiveTab(event.target.value);
     };
-
-
 
     useEffect(() => {
         const listWidth = listRef.current.offsetWidth;
@@ -343,13 +347,13 @@ function Main() {
     </main>;
 }
 
-setTimeout(() => {
-    const root = createRoot(document.getElementById('app'));
-    root.render(
-        <>
-            <Header />
-            <Main />
-        </>
-    );
-}, 100);
+// setTimeout(() => {
+const root = createRoot(document.getElementById('app'));
+root.render(
+    <>
+        <Header />
+        <Main />
+    </>
+);
+// }, 100);
 
